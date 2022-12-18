@@ -15,7 +15,7 @@ const Product = ({ id, title, price, description, category, image }) => {
   const [hasPrime, setHasPrime] = useState(Math.random() < 0.5);
 
   return (
-    <div className="max-w-sm mx-auto bg-white relative flex flex-col m-5 z-30 p-10">
+    <div className="w-full mx-auto bg-white relative flex flex-col m-5 z-30 p-10">
       <p className="absolute top-2 right-2 text-xs italic text-gray-400">
         {category}
       </p>
@@ -25,7 +25,7 @@ const Product = ({ id, title, price, description, category, image }) => {
           src={image}
           alt="Product image"
           layout="fill"
-          objectFit="cover"
+          objectFit="contain"
         />
       </div>
 
