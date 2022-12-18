@@ -18,7 +18,6 @@ const Header = () => {
 
   return (
     <header className="sticky">
-      {/* Top nav */}
       <div className="flex items-center bg-amazon_blue p-2 grow">
         <div
           onClick={handleLogo}
@@ -33,7 +32,6 @@ const Header = () => {
           />
         </div>
 
-        {/* Search Bar */}
         <div className="hidden sm:flex items-center h-10 rounded-md grow cursor-pointer bg-yellow-400 hover:bg-yellow-500 ml-6">
           <input
             type="text"
@@ -63,7 +61,6 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Bottom nav */}
       <div className="flex items-center gap-x-4 p-2 pl-6 bg-amazon_blue-light text-white text-sm">
         <p className="link flex items-center">
           <Bars3Icon className="w-5 h-5 mr-1" />
