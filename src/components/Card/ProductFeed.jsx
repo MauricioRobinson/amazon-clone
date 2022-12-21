@@ -1,5 +1,4 @@
 import Product from "components/Product/Product";
-import Image from "next/image";
 import React from "react";
 
 const ProductFeed = ({ products }) => {

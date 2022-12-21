@@ -6,9 +6,11 @@ import {
   Bars3Icon,
   ShoppingCartIcon,
 } from "@heroicons/react/24/outline";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 const Header = () => {
   const router = useRouter();
+  const { data: session } = useSession();
 
   const handleLogo = () => {
     router.push({
@@ -41,15 +43,17 @@ const Header = () => {
         </div>
 
         <div className="text-white flex items-center text-xs gap-x-6 mx-6 whitespace-nowrap">
-          <div className="link">
-            <p>Hello, Mauro Rob</p>
+          <div
+            onClick={!session ? signIn : signOut}
+            className="link cursor-pointer">
+            <p>{session ? `Hello, ${session.user.name}` : "Signin"}</p>
             <p className="font-extrabold md:text-sm">Accout & Lists</p>
           </div>
-          <div className="link">
+          <div className="link cursor-pointer">
             <p>Returns</p>
             <p className="font-extrabold md:text-sm">& Orders</p>
           </div>
-          <div className="relative link flex items-center">
+          <div className="relative link flex items-center cursor-pointer">
             <span className="bg-yellow-500 h-4 w-4 rounded-full absolute top-0 right-0 flex items-center justify-center text-black font-extrabold md:right-10">
               4
             </span>
