@@ -7,14 +7,23 @@ import {
   ShoppingCartIcon,
 } from "@heroicons/react/24/outline";
 import { useSession, signIn, signOut } from "next-auth/react";
+import { useSelector } from "react-redux";
+import { selectItems } from "slices/basketSlice";
 
 const Header = () => {
   const router = useRouter();
   const { data: session } = useSession();
+  const items = useSelector(selectItems);
 
   const handleLogo = () => {
     router.push({
       pathname: "/",
+    });
+  };
+
+  const redirectToCheckout = () => {
+    router.push({
+      pathname: "/checkout",
     });
   };
 
@@ -53,9 +62,11 @@ const Header = () => {
             <p>Returns</p>
             <p className="font-extrabold md:text-sm">& Orders</p>
           </div>
-          <div className="relative link flex items-center cursor-pointer">
+          <div
+            onClick={redirectToCheckout}
+            className="relative link flex items-center cursor-pointer">
             <span className="bg-yellow-500 h-4 w-4 rounded-full absolute top-0 right-0 flex items-center justify-center text-black font-extrabold md:right-10">
-              4
+              {items.length}
             </span>
             <ShoppingCartIcon className="h-8" />
             <p className="font-extrabold hidden mt-2 md:text-sm  md:inline">

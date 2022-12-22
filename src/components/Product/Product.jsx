@@ -3,14 +3,31 @@ import Image from "next/image";
 import React from "react";
 import { useState } from "react";
 import CurrencyFormat from "react-currency-format";
+import { useDispatch } from "react-redux";
+import { addToBasket } from "slices/basketSlice";
 
 const MAX_RATING = 5;
 const MIN_RATING = 1;
 
 const Product = ({ id, title, price, description, category, image }) => {
+  const dispatch = useDispatch();
   const [rating, setRating] = useState(
     Math.floor(Math.random() * (MAX_RATING - MIN_RATING + 1)) + MIN_RATING
   );
+
+  const addItemToBasket = () => {
+    const product = {
+      id,
+      title,
+      price,
+      description,
+      category,
+      image,
+      hasPrime,
+    };
+
+    dispatch(addToBasket(product));
+  };
 
   const [hasPrime, setHasPrime] = useState(true);
 
@@ -42,12 +59,14 @@ const Product = ({ id, title, price, description, category, image }) => {
           ))}
       </div> */}
 
-      <p className="text-xs my-2 line-clamp-2">{description}</p>
+      <p className="text-xs my-2 line-clamp-3">{description}</p>
 
       <div className="b-5">
         <CurrencyFormat
           value={price}
+          thousandSeparator={true}
           prefix={"$"}
+          displayType={"text"}
         />
       </div>
 
@@ -65,7 +84,11 @@ const Product = ({ id, title, price, description, category, image }) => {
         </div>
       )}
 
-      <button className="mt-auto button">Add to Basket</button>
+      <button
+        onClick={addItemToBasket}
+        className="mt-auto button">
+        Add to Basket
+      </button>
     </div>
   );
 };
