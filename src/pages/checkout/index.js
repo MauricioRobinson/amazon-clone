@@ -1,11 +1,15 @@
 import CheckoutProduct from "components/Product/CheckoutProduct";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
-import React, { useId } from "react";
+import React from "react";
+import CurrencyFormat from "react-currency-format";
 import { useSelector } from "react-redux";
-import { selectItems } from "slices/basketSlice";
+import { selectItems, selectTotal } from "slices/basketSlice";
 
 const Checkout = () => {
   const items = useSelector(selectItems);
+  const total = useSelector(selectTotal);
+  const { data: session } = useSession();
 
   return (
     <div className="bg-gray-100">
@@ -47,6 +51,32 @@ const Checkout = () => {
         </div>
 
         {/* Right section */}
+        <div className="flex flex-col bg-white p-10 shadow-md">
+          {items.length > 0 && (
+            <>
+              <h2 className="whitespace-nowrap">
+                Subtotal ({items.length}) items:{" "}
+                <span className="font-bold">
+                  <CurrencyFormat
+                    value={total}
+                    thousandSeparator={true}
+                    prefix={"$"}
+                    displayType={"text"}
+                  />
+                </span>
+              </h2>
+
+              <button
+                disabled={!session}
+                className={`button mt-2 ${
+                  !session &&
+                  "from-gray-300 to-gray-500 border-gray-300 text-gray-300 cursor-not-allowed"
+                }`}>
+                {!session ? "Sign in to checkout" : "Proceed to checkout"}
+              </button>
+            </>
+          )}
+        </div>
       </main>
     </div>
   );

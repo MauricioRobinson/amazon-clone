@@ -64,7 +64,9 @@ const Product = ({ id, title, price, description, category, image }) => {
       <div className="b-5">
         <CurrencyFormat
           value={price}
+          thousandSeparator={true}
           prefix={"$"}
+          displayType={"text"}
         />
       </div>
 

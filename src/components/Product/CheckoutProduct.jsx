@@ -52,7 +52,9 @@ const CheckoutProduct = ({
         <div className="b-5 font-bold">
           <CurrencyFormat
             value={price}
+            thousandSeparator={true}
             prefix={"$"}
+            displayType={"text"}
           />
         </div>
 
