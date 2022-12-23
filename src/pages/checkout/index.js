@@ -5,11 +5,33 @@ import React from "react";
 import CurrencyFormat from "react-currency-format";
 import { useSelector } from "react-redux";
 import { selectItems, selectTotal } from "slices/basketSlice";
+import { loadStripe } from "@stripe/stripe-js";
+import axios from "axios";
+
+const stripePromise = loadStripe(process.env.stripe_public_key);
 
 const Checkout = () => {
   const items = useSelector(selectItems);
   const total = useSelector(selectTotal);
   const { data: session } = useSession();
+
+  const createCheckoutSession = async () => {
+    const stripe = await stripePromise;
+
+    const checkoutSession = await axios.post("/api/checkout_sessions", {
+      items,
+      email: session.user.email,
+    });
+
+    //Redirect user to Stripe Checkout
+    const result = await stripe.redirectToCheckout({
+      sessionId: checkoutSession.data.id,
+    });
+
+    if (result.error) {
+      alert(result.error.message);
+    }
+  };
 
   return (
     <div className="bg-gray-100">
@@ -60,6 +82,7 @@ const Checkout = () => {
                   <CurrencyFormat
                     value={total}
                     thousandSeparator={true}
+                    pattern="##,## !"
                     prefix={"$"}
                     displayType={"text"}
                   />
@@ -67,6 +90,8 @@ const Checkout = () => {
               </h2>
 
               <button
+                role="link"
+                onClick={createCheckoutSession}
                 disabled={!session}
                 className={`button mt-2 ${
                   !session &&
