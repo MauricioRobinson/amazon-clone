@@ -18,7 +18,6 @@ export default async (req, res) => {
   }));
 
   try {
-    console.log("Iniciando la llamada al api del checkout");
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
